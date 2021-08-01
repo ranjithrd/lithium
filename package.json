@@ -1,19 +1,19 @@
 {
-	"name": "hat_cli",
+	"name": "soda-cli",
 	"version": "0.0.1",
 	"description": "A microframework for creating CLIs in minutes.",
-	"main": "hat.js",
+	"main": "soda.js",
 	"keywords": [
 		"cli"
 	],
-	"homepage": "https://ranjithrd.github.io/hat",
+	"homepage": "https://ranjithrd.github.io/soda",
 	"bugs": {
 		"email": "ranjithrd03@gmail.com",
-		"url": "https://github.com/ranjithrd/hat/issues"
+		"url": "https://github.com/ranjithrd/soda/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ranjithrd/hat.git"
+		"url": "https://github.com/ranjithrd/soda.git"
 	},
 	"author": "Ranjith RD",
 	"license": "MIT",

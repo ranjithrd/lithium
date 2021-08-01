@@ -3,14 +3,14 @@ const boxen = require("boxen")
 const ora = require("ora")
 
 /**
- * @typedef {object} HatCommand
+ * @typedef {object} SodaCommand
  * @property {string} command
  * @property {string} description
  * @property {Function} action
  */
 
 /**
- * @typedef HatCommandCallbackObject
+ * @typedef SodaCommandCallbackObject
  * @type {object}
  * @property {Object} args Arguments given in the command line
  * @property {"mac" | "linux" | "windows" | "unknown"} os Operating system where the command is being run
@@ -18,35 +18,35 @@ const ora = require("ora")
  */
 
 /**
- * @callback HatCommandCallback
- * @param {HatCommandCallbackObject} options The options that your command can use
+ * @callback SodaCommandCallback
+ * @param {SodaCommandCallbackObject} options The options that your command can use
  * @returns {void}
  */
 
 /**
- * @callback HatHeaderFunction
+ * @callback SodaHeaderFunction
  * @param {string} command
  * @returns {void}
  */
 
 /**
- * @callback HatFooterFunction
+ * @callback SodaFooterFunction
  * @param {string} command
  * @returns {void}
  */
 
 /**
- * @callback HatHelpFunction
+ * @callback SodaHelpFunction
  * @returns {void}
  */
 
 /**
- * @callback HatNotFoundFunction
+ * @callback SodaNotFoundFunction
  * @returns {void}
  */
 
 /**
- * @typedef {object} HatConfig
+ * @typedef {object} SodaConfig
  * @property {Function=} header Called right before command mounts
  * @property {Function=} footer Called after command has finished
  * @property {Function=} onHelp Used at `something --help` to display commands
@@ -54,7 +54,7 @@ const ora = require("ora")
  */
 
 /**
- * @callback HatExecute
+ * @callback SodaExecute
  * @param {string} command The command that needs to be run
  * @param {string} directory The directory in which the command has to be executed
  * @param {boolean=} showOutput If the output for that command needs to be displayed
@@ -64,11 +64,11 @@ const ora = require("ora")
  */
 
 /**
- * Creates a Hat application.
+ * Creates a Soda application.
  */
 module.exports = () => {
 	/**
-	 * @type {HatConfig}
+	 * @type {SodaConfig}
 	 */
 	let config = {
 		onCommandNotFound: function () {
@@ -85,7 +85,7 @@ module.exports = () => {
 			console.log(helpString)
 		},
 		header: function () {
-			console.log("\nHat CLI\n\n")
+			console.log("\nSoda CLI\n\n")
 		},
 		footer: function () {
 			console.log("\n\nMade by XXXYYY\n")
@@ -93,7 +93,7 @@ module.exports = () => {
 	}
 
 	/**
-	 * @type {HatCommand[]}
+	 * @type {SodaCommand[]}
 	 */
 	let commands = [
 		{
@@ -105,8 +105,8 @@ module.exports = () => {
 
 	return {
 		/**
-		 * Sets the Hat App configuration.
-		 * @param {HatConfig} newConfig
+		 * Sets the Soda App configuration.
+		 * @param {SodaConfig} newConfig
 		 * @returns {void}
 		 */
 		setConfig: function (newConfig) {
@@ -117,16 +117,16 @@ module.exports = () => {
 		},
 
 		/**
-		 * Creates a command for your Hat App.
+		 * Creates a command for your Soda App.
 		 * @param {string} command
-		 * @param {HatCommandCallback} action
+		 * @param {SodaCommandCallback} action
 		 * @param {string} description
 		 */
 		command: function (command, action, description) {
 			commands.push({ command, action, description })
 		},
 		/**
-		 * Starts your Hat app
+		 * Starts your Soda app
 		 * @returns {void}
 		 */
 		start: async function () {
@@ -217,7 +217,7 @@ module.exports = () => {
 
 		/**
 		 * Allows calling shell commands asynchronously
-		 * @type {HatExecute}
+		 * @type {SodaExecute}
 		 */
 		execute: execute,
 
@@ -254,7 +254,7 @@ module.exports = () => {
 
 /**
  * Allows calling shell commands asynchronously
- * @type {HatExecute}
+ * @type {SodaExecute}
  */
 function execute(command, directory, showOutput, logFunction, errorFunction) {
 	const { spawn } = require("child_process")
