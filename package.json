@@ -1,0 +1,25 @@
+{
+	"name": "hat_cli",
+	"version": "0.0.1",
+	"description": "A microframework for creating CLIs in minutes.",
+	"main": "hat.js",
+	"keywords": [
+		"cli"
+	],
+	"homepage": "https://ranjithrd.github.io/hat",
+	"bugs": {
+		"email": "ranjithrd03@gmail.com",
+		"url": "https://github.com/ranjithrd/hat/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ranjithrd/hat.git"
+	},
+	"author": "Ranjith RD",
+	"license": "MIT",
+	"peerDependencies": {
+		"boxen": "^5.0.1",
+		"chalk": "^4.1.2",
+		"ora": "^5.4.1"
+	}
+}
