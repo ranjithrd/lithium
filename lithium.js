@@ -64,7 +64,7 @@ const ora = require("ora")
  */
 
 /**
- * Creates a Soda application.
+ * Creates a Lithium application.
  */
 module.exports = () => {
 	/**
@@ -105,7 +105,7 @@ module.exports = () => {
 
 	return {
 		/**
-		 * Sets the Soda App configuration.
+		 * Sets the Lithium App configuration.
 		 * @param {SodaConfig} newConfig
 		 * @returns {void}
 		 */
@@ -117,7 +117,7 @@ module.exports = () => {
 		},
 
 		/**
-		 * Creates a command for your Soda App.
+		 * Creates a command for your Lithium App.
 		 * @param {string} command
 		 * @param {SodaCommandCallback} action
 		 * @param {string} description
@@ -126,7 +126,7 @@ module.exports = () => {
 			commands.push({ command, action, description })
 		},
 		/**
-		 * Starts your Soda app
+		 * Starts your Lithium app
 		 * @returns {void}
 		 */
 		start: async function () {

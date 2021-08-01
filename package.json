@@ -1,19 +1,19 @@
 {
-	"name": "soda-cli",
+	"name": "lithium-cli",
 	"version": "0.0.1",
 	"description": "A microframework for creating CLIs in minutes.",
-	"main": "soda.js",
+	"main": "lithium.js",
 	"keywords": [
 		"cli"
 	],
-	"homepage": "https://ranjithrd.github.io/soda",
+	"homepage": "https://ranjithrd.github.io/lithium",
 	"bugs": {
 		"email": "ranjithrd03@gmail.com",
-		"url": "https://github.com/ranjithrd/soda/issues"
+		"url": "https://github.com/ranjithrd/lithium/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ranjithrd/soda.git"
+		"url": "https://github.com/ranjithrd/lithium.git"
 	},
 	"author": "Ranjith RD",
 	"license": "MIT",
