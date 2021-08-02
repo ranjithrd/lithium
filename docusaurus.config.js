@@ -5,8 +5,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 module.exports = {
   title: 'Lithium JS',
   tagline: 'A microframework for building CLIs',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  url: 'https://ranjithrd.github.io',
+  baseUrl: '/lithium/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 //   favicon: 'img/favicon.ico',
