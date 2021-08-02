@@ -100,12 +100,8 @@ module.exports = () => {
 
 			console.log(helpString)
 		},
-		header: function () {
-			console.log("\nLithium CLI\n\n")
-		},
-		footer: function () {
-			console.log("\n\nMade by XXXYYY\n")
-		},
+		header: function () {},
+		footer: function () {},
 	}
 
 	/**
@@ -216,7 +212,7 @@ module.exports = () => {
 		 * @returns {void}
 		 */
 		start: async function () {
-			const cwd = await execute("pwd", ".")
+			const cwd = await execute("pwd", ".", false)
 
 			const preArguments = process.argv
 			const [nodeEnv, binEnv, ...args] = preArguments
@@ -290,7 +286,7 @@ module.exports = () => {
 
 			if (commandMatched) {
 				config.header(commandMatched.command)
-				for (let input of commandMatched.inputs) {
+				for (let input of (commandMatched.inputs ?? [])) {
 					if (!finalArguments[input.optionArgument]) {
 						const res = await this.ask(
 							input.question,
