@@ -143,12 +143,19 @@ module.exports = () => {
 			commands.push({ command, action, description, inputs })
 		},
 
+		/**
+		 * Export commands from your app. Use with `app.import()`
+		 * @returns {LithiumCommand[]}
+		 */
 		export: function () {
 			return commands
 		},
 
-		import: function (filePath) {
-			const fileCommands = require(filePath)
+		/**
+		 * Use commands from other files in your app. Use with `app.export()`
+		 * @param {LithiumCommand[]} fileCommands The commands to load
+		 */
+		import: function (fileCommands) {
 			commands.push(...fileCommands)
 		},
 

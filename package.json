@@ -1,6 +1,6 @@
 {
 	"name": "lithium-cli",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "A microframework for creating CLIs in minutes.",
 	"main": "lithium.js",
 	"keywords": [
