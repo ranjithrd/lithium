@@ -3,7 +3,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  plugins: ["@docusaurus/plugin-google-gtag"],
+  //plugins: ["@docusaurus/plugin-google-gtag"],
   title: "Lithium JS",
   tagline: "A microframework for building CLIs",
   url: "https://ranjithrd.github.io",
@@ -14,10 +14,10 @@ module.exports = {
   organizationName: "ranjithrd", // Usually your GitHub org/user name.
   projectName: "lithium", // Usually your repo name.
   themeConfig: {
-    gtag: {
-      trackingID: "G-5F1MX0ST59",
-      anonymizeIP: false, 
-    },
+    //gtag: {
+      //trackingID: "G-5F1MX0ST59",
+      //anonymizeIP: false, 
+    //},
     navbar: {
       title: "Lithium JS",
       //   logo: {
