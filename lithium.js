@@ -143,6 +143,15 @@ module.exports = () => {
 			commands.push({ command, action, description, inputs })
 		},
 
+		export: function () {
+			return commands
+		},
+
+		import: function (filePath) {
+			const fileCommands = require(filePath)
+			commands.push(...fileCommands)
+		},
+
 		/**
 		 * Allows you to ask the user a question
 		 * @param {string} question The question that will be displayed to the user
