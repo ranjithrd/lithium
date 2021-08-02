@@ -2,34 +2,39 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Getting started
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Lithium is the best way to create a CLI in JavaScript. You can do it in literally minutes. Don't spend another second dealing with `process.argv` again. Lithium speeds that process up exponentially with an API that feels like using Express.
 
-## Getting Started
+Code
 
-Get started by **creating a new site**.
+```js
+const app = require("lithium-cli")()
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+app.command("say", ({ args: { root } }) => {
+	console.log(app.colour.blueBright(root))
+})
 
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**:
-
-```shell
-npx @docusaurus/init@latest init my-website classic
+app.start()
 ```
 
-## Start your site
+Output
 
-Run the development server:
+```bash
+app_name say "Hello world"
 
-```shell
-cd my-website
-
-npx docusaurus start
+# O U T P U T
+Hello world
 ```
 
-Your site starts at `http://localhost:3000`.
+## FAQs
 
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
+1. **How is this different from yargs or similar packages?** Lithium offers a more complete and expressive API than some of those frameworks. However, it's always good to try everything out.
+
+2. **Can I use this in an existing Node project?** Yep! You can just `npm install lithium-cli` and you can use the commands, config, everything when you call the node script.
+
+3. **Can I use this without NPM?** Yes! Just navigate to the [GitHub Repo](https://github.com/ranjithrd/lithium) and copy `lithium.js` and install the peer dependencies from `package.json`. You can import that file and use the whole thing, auto-complete and all!
+
+4. **Where could I use this?** Really, anywhere. I personally like using this with frontend projects rather than npm scripts, but you can use this literally anywhere you are calling Node from the command line.
+
+5. **I'm sold. How do I get started?** Great to hear that! Check out [this link](starting) and you can start within just 5 minutes.
