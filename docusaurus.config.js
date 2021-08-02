@@ -15,7 +15,7 @@ module.exports = {
   projectName: "lithium", // Usually your repo name.
   themeConfig: {
     gtag: {
-      trackingID: "G-5F1MX0ST59",
+      trackingID: "UA-154616238-4",
       anonymizeIP: false, 
     },
     navbar: {
