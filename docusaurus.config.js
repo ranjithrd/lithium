@@ -14,10 +14,10 @@ module.exports = {
   organizationName: "ranjithrd", // Usually your GitHub org/user name.
   projectName: "lithium", // Usually your repo name.
   themeConfig: {
-    //gtag: {
-      //trackingID: "G-5F1MX0ST59",
-      //anonymizeIP: false, 
-    //},
+    gtag: {
+      trackingID: "G-5F1MX0ST59",
+      anonymizeIP: false, 
+    },
     navbar: {
       title: "Lithium JS",
       //   logo: {
