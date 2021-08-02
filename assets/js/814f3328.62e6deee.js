@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunklithium_docs=self.webpackChunklithium_docs||[]).push([[535],{6353:function(l){l.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome","permalink":"/lithium/blog/welcome"},{"title":"Hello","permalink":"/lithium/blog/hello-world"},{"title":"Hola","permalink":"/lithium/blog/hola"}]}')}}]);

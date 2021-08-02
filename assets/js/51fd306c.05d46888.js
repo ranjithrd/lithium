@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunklithium_docs=self.webpackChunklithium_docs||[]).push([[622],{1441:function(l){l.exports=JSON.parse('{"allTagsPath":"/lithium/blog/tags","slug":"hello","name":"hello","count":2,"permalink":"/lithium/blog/tags/hello"}')}}]);
