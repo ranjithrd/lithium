@@ -1,16 +1,32 @@
 const chalk = require("chalk")
 const boxen = require("boxen")
 const ora = require("ora")
+const inquirer = require("inquirer")
 
 /**
- * @typedef {object} SodaCommand
+ * @typedef {object} LithiumCommand
  * @property {string} command
  * @property {string} description
  * @property {Function} action
+ * @property {LithiumInput[]} inputs
  */
 
 /**
- * @typedef SodaCommandCallbackObject
+ * @typedef {Object} LithiumInput
+ * @property {string} question
+ * @property {string} optionArgument
+ * @property {"string" | "number" | "boolean" | "choices" | "password"} type
+ * @property {LithiumInputChoice[]=} choices
+ */
+
+/**
+ * @typedef {Object} LithiumInputChoice
+ * @property {string} name
+ * @property {string} value
+ */
+
+/**
+ * @typedef LithiumCommandCallbackObject
  * @type {object}
  * @property {Object} args Arguments given in the command line
  * @property {"mac" | "linux" | "windows" | "unknown"} os Operating system where the command is being run
@@ -18,35 +34,35 @@ const ora = require("ora")
  */
 
 /**
- * @callback SodaCommandCallback
- * @param {SodaCommandCallbackObject} options The options that your command can use
+ * @callback LithiumCommandCallback
+ * @param {LithiumCommandCallbackObject} options The options that your command can use
  * @returns {void}
  */
 
 /**
- * @callback SodaHeaderFunction
+ * @callback LithiumHeaderFunction
  * @param {string} command
  * @returns {void}
  */
 
 /**
- * @callback SodaFooterFunction
+ * @callback LithiumFooterFunction
  * @param {string} command
  * @returns {void}
  */
 
 /**
- * @callback SodaHelpFunction
+ * @callback LithiumHelpFunction
  * @returns {void}
  */
 
 /**
- * @callback SodaNotFoundFunction
+ * @callback LithiumNotFoundFunction
  * @returns {void}
  */
 
 /**
- * @typedef {object} SodaConfig
+ * @typedef {object} LithiumConfig
  * @property {Function=} header Called right before command mounts
  * @property {Function=} footer Called after command has finished
  * @property {Function=} onHelp Used at `something --help` to display commands
@@ -54,7 +70,7 @@ const ora = require("ora")
  */
 
 /**
- * @callback SodaExecute
+ * @callback LithiumExecute
  * @param {string} command The command that needs to be run
  * @param {string} directory The directory in which the command has to be executed
  * @param {boolean=} showOutput If the output for that command needs to be displayed
@@ -68,7 +84,7 @@ const ora = require("ora")
  */
 module.exports = () => {
 	/**
-	 * @type {SodaConfig}
+	 * @type {LithiumConfig}
 	 */
 	let config = {
 		onCommandNotFound: function () {
@@ -85,7 +101,7 @@ module.exports = () => {
 			console.log(helpString)
 		},
 		header: function () {
-			console.log("\nSoda CLI\n\n")
+			console.log("\nLithium CLI\n\n")
 		},
 		footer: function () {
 			console.log("\n\nMade by XXXYYY\n")
@@ -93,7 +109,7 @@ module.exports = () => {
 	}
 
 	/**
-	 * @type {SodaCommand[]}
+	 * @type {LithiumCommand[]}
 	 */
 	let commands = [
 		{
@@ -106,7 +122,7 @@ module.exports = () => {
 	return {
 		/**
 		 * Sets the Lithium App configuration.
-		 * @param {SodaConfig} newConfig
+		 * @param {LithiumConfig} newConfig
 		 * @returns {void}
 		 */
 		setConfig: function (newConfig) {
@@ -119,12 +135,66 @@ module.exports = () => {
 		/**
 		 * Creates a command for your Lithium App.
 		 * @param {string} command
-		 * @param {SodaCommandCallback} action
+		 * @param {LithiumCommandCallback} action
+		 * @param {LithiumInput[]} inputs
 		 * @param {string} description
 		 */
-		command: function (command, action, description) {
-			commands.push({ command, action, description })
+		command: function (command, action, inputs, description) {
+			commands.push({ command, action, description, inputs })
 		},
+
+		/**
+		 * Allows you to ask the user a question
+		 * @param {string} question The question that will be displayed to the user
+		 * @param {"string" | "number" | "boolean" | "choices" | "password"} type The type of user input
+		 * @param {LithiumInputChoice[]=} options
+		 * @returns
+		 */
+		ask: function (question, type, options) {
+			let inqType = ""
+
+			switch (type) {
+				case "string":
+					inqType = "input"
+					break
+				case "number":
+					inqType = "number"
+					break
+				case "boolean":
+					inqType = "list"
+					options = [
+						{ name: "Yes", value: true },
+						{ name: "No", value: false },
+					]
+					break
+				case "choices":
+					inqType = "list"
+					break
+				case "password":
+					inqType = "password"
+				default:
+					return
+			}
+
+			return new Promise((resolve, reject) => {
+				inquirer
+					.prompt([
+						{
+							type: inqType,
+							name: "q1",
+							choices: options,
+							message: question,
+						},
+					])
+					.then(({ q1 }) => {
+						resolve(q1)
+					})
+					.catch((error) => {
+						reject(error)
+					})
+			})
+		},
+
 		/**
 		 * Starts your Lithium app
 		 * @returns {void}
@@ -204,6 +274,16 @@ module.exports = () => {
 
 			if (commandMatched) {
 				config.header(commandMatched.command)
+				for (let input of commandMatched.inputs) {
+					if (!finalArguments[input.optionArgument]) {
+						const res = await this.ask(
+							input.question,
+							input.type,
+							input.choices
+						)
+						finalArguments[input.optionArgument] = res
+					}
+				}
 				await commandMatched.action({
 					args: finalArguments,
 					currentWorkingDirectory: cwd,
@@ -217,7 +297,7 @@ module.exports = () => {
 
 		/**
 		 * Allows calling shell commands asynchronously
-		 * @type {SodaExecute}
+		 * @type {LithiumExecute}
 		 */
 		execute: execute,
 
@@ -254,7 +334,7 @@ module.exports = () => {
 
 /**
  * Allows calling shell commands asynchronously
- * @type {SodaExecute}
+ * @type {LithiumExecute}
  */
 function execute(command, directory, showOutput, logFunction, errorFunction) {
 	const { spawn } = require("child_process")
