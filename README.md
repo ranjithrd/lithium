@@ -1,6 +1,8 @@
 # Lithium CLI
 
-Lithium is the best way to create a CLI in JavaScript. You can do it in literally minutes. Don't spend another second dealing with `process.argv` again. Lithium speeds that process up exponentially with an API that feels like using Express.
+Lithium is the best way to create a CLI in JavaScript. You can do it in literally minutes. Don't spend another second dealing with `process.argv` again. Lithium speeds that process up exponentially with an API that actually feels good.
+
+For documentation, please check out the package site: [lithium.js.org](https://lithium.js.org)
 
 ## Installation
 
