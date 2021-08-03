@@ -1,7 +1,4 @@
-const chalk = require("chalk")
-const boxen = require("boxen")
-const ora = require("ora")
-const inquirer = require("inquirer")
+// D E F I N I T I O N S
 
 /**
  * @typedef {object} LithiumCommand
@@ -53,6 +50,7 @@ const inquirer = require("inquirer")
 
 /**
  * @callback LithiumHelpFunction
+ * @param {LithiumCommand[]} commands
  * @returns {void}
  */
 
@@ -79,10 +77,19 @@ const inquirer = require("inquirer")
  * @returns {string | Error}
  */
 
+// I M P O R T S
+
+const chalk = require("chalk")
+const boxen = require("boxen")
+const ora = require("ora")
+const inquirer = require("inquirer")
+
 /**
  * Creates a Lithium application.
  */
 module.exports = () => {
+
+	// This contains some default options.
 	/**
 	 * @type {LithiumConfig}
 	 */
@@ -90,18 +97,17 @@ module.exports = () => {
 		onCommandNotFound: function () {
 			console.error("Sorry, we couldn't find that command. Try again?")
 		},
-		onHelp: function () {
+		onHelp: function (commands) {
 			let helpString = ``
 			for (let command of commands) {
-				helpString += `${command.command}: ${
-					command.description ?? ""
-				}\n`
+				helpString += `${command.command}: ${command.description ?? ""
+					}\n`
 			}
 
 			console.log(helpString)
 		},
-		header: function () {},
-		footer: function () {},
+		header: function () { },
+		footer: function () { },
 	}
 
 	/**
@@ -110,7 +116,7 @@ module.exports = () => {
 	let commands = [
 		{
 			command: "help",
-			action: config.onHelp,
+			action: () => config.onHelp(commands),
 			description: "Shows a list of all commands",
 		},
 	]
@@ -122,6 +128,7 @@ module.exports = () => {
 		 * @returns {void}
 		 */
 		setConfig: function (newConfig) {
+			// Updates rather than replaces the object
 			config = {
 				...config,
 				...newConfig,
@@ -136,6 +143,7 @@ module.exports = () => {
 		 * @param {string} description
 		 */
 		command: function (command, action, inputs, description) {
+			// Adds the command to the commands object
 			commands.push({ command, action, description, inputs })
 		},
 
@@ -144,6 +152,7 @@ module.exports = () => {
 		 * @returns {LithiumCommand[]}
 		 */
 		export: function () {
+			// Exports app commands
 			return commands
 		},
 
@@ -152,6 +161,7 @@ module.exports = () => {
 		 * @param {LithiumCommand[]} fileCommands The commands to load
 		 */
 		import: function (fileCommands) {
+			// Adds the given commands to app's internal command list
 			commands.push(...fileCommands)
 		},
 
@@ -163,8 +173,8 @@ module.exports = () => {
 		 * @returns
 		 */
 		ask: function (question, type, options) {
+			// Converts Lithium choice type into an Inquirer type
 			let inqType = ""
-
 			switch (type) {
 				case "string":
 					inqType = "input"
@@ -189,10 +199,12 @@ module.exports = () => {
 			}
 
 			return new Promise((resolve, reject) => {
+				// Passes on command to inquirer
 				inquirer
 					.prompt([
 						{
 							type: inqType,
+							// q1 is set by default since there is always only one question in this function
 							name: "q1",
 							choices: options,
 							message: question,
@@ -212,14 +224,16 @@ module.exports = () => {
 		 * @returns {void}
 		 */
 		start: async function () {
+			// Gets the directory in which the command has been called in
 			const cwd = await execute("pwd", ".", false)
 
+			// Gets and destructures the arguments provided to the app
 			const preArguments = process.argv
 			const [nodeEnv, binEnv, ...args] = preArguments
 
+			// Figures out which command has to be run and assigns the relevant Node arguments
 			let commandMatched = null
 			let commandArguments = []
-
 			for (let command of commands) {
 				let i = 0
 				while (i < args.length) {
@@ -234,8 +248,8 @@ module.exports = () => {
 				}
 			}
 
+			// Converts the Node arguments into a more human friendly version
 			let finalArguments = {}
-
 			for (let a of commandArguments) {
 				if ((a?.arg ?? "").startsWith("--")) {
 					const i = commandArguments.findIndex(
@@ -260,8 +274,8 @@ module.exports = () => {
 				}
 			}
 
+			// Gets the Operating System of the user to pass on to the command action
 			let platform = ""
-
 			switch (process.platform) {
 				case "darwin":
 					platform = "mac"
@@ -284,8 +298,11 @@ module.exports = () => {
 					break
 			}
 
+			// If there's a command which has been matched, then execute that
 			if (commandMatched) {
-				config.header(commandMatched.command)
+				// Executes the header
+				await config.header(commandMatched.command)
+				// Ensures that the arguments are all provided, and if not, asks the user
 				for (let input of (commandMatched.inputs ?? [])) {
 					if (!finalArguments[input.optionArgument]) {
 						const res = await this.ask(
@@ -296,14 +313,17 @@ module.exports = () => {
 						finalArguments[input.optionArgument] = res
 					}
 				}
+				// Executes the user
 				await commandMatched.action({
 					args: finalArguments,
 					currentWorkingDirectory: cwd,
 					os: platform,
 				})
-				config.footer(commandMatched.command)
+				// Executes the footer
+				await config.footer(commandMatched.command)
 			} else {
-				console.error("Command not found!")
+				// Otherwise executes commandNotFound from config
+				await config.onCommandNotFound()
 			}
 		},
 
