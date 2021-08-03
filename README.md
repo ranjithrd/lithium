@@ -32,7 +32,7 @@ You can install Lithium in two ways:
 Lithium is primarily based off of one function that returns an instance of a Lithium app. This allows you to create commands, change headers, ask questions, and more.
 
 ```js
-const lithium = require("lithium")
+const lithium = require("lithium-cli")
 ```
 
 To create an app, call the function.
@@ -75,7 +75,7 @@ This is the most basic setup. To use commands from another file,
 File 1
 
 ```js
-const app = require("lithium")()
+const app = require("lithium-cli")()
 
 app
 	.command
@@ -88,7 +88,7 @@ module.exports = app.export()
 File 2
 
 ```js
-const app = require("lithium")()
+const app = require("lithium-cli")()
 
 app.import(require("./File2.js"))
 
@@ -100,7 +100,7 @@ app.start()
 You may want to set the text which comes up at the start of every command and at the end in one place to avoid repeating code. To do this, you can use the `app.setConfig` method. Here's an example:
 
 ```js
-const app = require("lithium)()
+const app = require("lithium-cli")()
 
 app.setConfig({
 	header: () => {
