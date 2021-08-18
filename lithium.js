@@ -162,7 +162,7 @@ module.exports = () => {
 		 */
 		import: function (fileCommands) {
 			// Adds the given commands to app's internal command list
-			commands.push(...fileCommands)
+			commands.push(...fileCommands.filter(({ command }) => command !== "help"))
 		},
 
 		/**
